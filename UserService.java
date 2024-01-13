@@ -10,15 +10,13 @@ import java.util.Optional;
 public class UserService {
     private final Repository repository;
 
-    UserEntity userEntity;
-
     public UserService(Repository repository) {
         this.repository = repository;
     }
 
     public Optional<UserEntity> getBalanceAndID(Long ID)throws Exception {
         try {
-            return repository.getBalanceByID(ID);
+            return repository.findById(ID);
         } catch (Exception e){
             throw new Exception("Ошибка при выполнении операции");
         }
@@ -39,11 +37,9 @@ public class UserService {
 
     public void takeMoneyAndBalance(Long ID, int takeSum) throws Exception {
         try {
-            UserEntity userEntity = repository.findById(ID).get();
-            userEntity.setBalance(userEntity.Balance - takeSum);
-
-            repository.save(userEntity);
-
+                UserEntity userEntity = repository.findById(ID).get();
+                userEntity.setBalance(userEntity.Balance - takeSum);
+                repository.save(userEntity);
         }
         catch (Exception e){
             throw new Exception("Ошибка при выполнении операции"+ 0);
